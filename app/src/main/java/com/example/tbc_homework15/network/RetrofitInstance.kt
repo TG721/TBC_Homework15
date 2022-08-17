@@ -1,11 +1,12 @@
 package com.example.tbc_homework15.network
 
+import com.example.tbc_homework15.utils.Constants.Companion.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
 
-    private const val BASE_URL = "https://reqres.in/api/"
+//    private const val BASE_URL = "https://reqres.in/api/"
 
     private val instance by lazy {
         Retrofit.Builder()
@@ -14,6 +15,6 @@ object RetrofitInstance {
             .build()
     }
 
-    fun getAuthApi(): Authentication_api = instance.create(Authentication_api::class.java)
+    fun getAuthApi(): AuthenticationApi = instance.create(AuthenticationApi::class.java)
 
 }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.example.tbc_homework15.ui.WelcomeFragment"
+        android:name="com.example.tbc_homework15.ui.welcome.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
@@ -19,21 +19,21 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.tbc_homework15.ui.LoginFragment"
+        android:name="com.example.tbc_homework15.ui.login.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
-    <fragment
-        android:id="@+id/registerFragment"
-        android:name="com.example.tbc_homework15.ui.RegisterFragment"
-        android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_registerFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_loginFragment_to_loggedinFragment"
+            app:destination="@id/loggedinFragment" />
     </fragment>
     <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.tbc_homework15.ui.register.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+    <fragment
         android:id="@+id/loggedinFragment"
-        android:name="com.example.tbc_homework15.LoggedinFragment"
+        android:name="com.example.tbc_homework15.ui.loggedin.LoggedInFragment"
         android:label="fragment_loggedin"
         tools:layout="@layout/fragment_loggedin" />
 </navigation>
