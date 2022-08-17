@@ -30,7 +30,7 @@ class LoginViewModel(private val repository: Repository) : ViewModel() {
                 if (response.isSuccessful && response.body() != null) {
                     _loginResponseState.emit(ResponseState.Success(body!!))
                 } else {
-                    _loginResponseState.emit(ResponseState.Error(response.errorBody().toString()))
+                    _loginResponseState.emit(ResponseState.Error(response.errorBody()?.string()))
                 }
             } catch (e: Throwable) {
                 _loginResponseState.emit(ResponseState.Error(message = e.message ?: "error"))

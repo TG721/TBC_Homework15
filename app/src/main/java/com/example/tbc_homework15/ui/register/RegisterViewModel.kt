@@ -31,7 +31,7 @@ class RegisterViewModel(private val repository: Repository) : ViewModel() {
                 } else {
                     _registerResponseState.emit(
                         ResponseState.Error(
-                            response.errorBody().toString()
+                            response.errorBody()?.string()
                         )
                     )
                 }
