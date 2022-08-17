@@ -122,26 +122,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
                     !isValidUsername(registerUsername) -> {}
                     else -> {
                         viewModel.register(email = registerEmailET.text.toString(), password = registerPasswordET.text.toString())
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                                viewModel.registerResponseState.collect{
-                                    when(it){
-                                        is ResponseState.Loading -> {
-                                            showProgressBar()
-                                        }
-                                        is ResponseState.Error -> {
-                                            Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                                            hideProgressBar()
-                                        }
-                                        is ResponseState.Success -> {
-                                            Toast.makeText(requireContext(), "registered successfully", Toast.LENGTH_SHORT).show()
-                                            hideProgressBar()
-                                        }
-                                        else -> {}
-                                    }
-                                }
-                            }
-                        }
+                        observers()
                     }
                 }
             }
@@ -149,6 +130,30 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
 
 
     }
+
+    private fun observers(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.registerResponseState.collect{
+                    when(it){
+                        is ResponseState.Loading -> {
+                            showProgressBar()
+                        }
+                        is ResponseState.Error -> {
+                            Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
+                            hideProgressBar()
+                        }
+                        is ResponseState.Success -> {
+                            Toast.makeText(requireContext(), "registered successfully", Toast.LENGTH_SHORT).show()
+                            hideProgressBar()
+                        }
+                        else -> {}
+                    }
+                }
+            }
+        }
+    }
+
 
     private fun showProgressBar() {
         binding.registerProgressBar.visibility = View.VISIBLE

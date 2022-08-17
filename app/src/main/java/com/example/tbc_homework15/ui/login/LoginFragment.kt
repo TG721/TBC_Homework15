@@ -61,32 +61,36 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
                             email = loginEmailET.text.toString(),
                             password = loginPasswordET.text.toString()
                         )
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                                viewModel.loginResponseState.collect {
-                                    when (it) {
-                                        is ResponseState.Loading -> {
-                                            showProgressBar()
-                                        }
-                                        is ResponseState.Error -> {
-                                            Toast.makeText(
-                                                requireContext(),
-                                                "${it.message}",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                            hideProgressBar()
-                                        }
-                                        //if login was successful
-                                        is ResponseState.Success -> {
-                                            val actionToLoggedIn = LoginFragmentDirections.actionLoginFragmentToLoggedinFragment()
-                                            Navigation.findNavController(view).navigate(actionToLoggedIn)
-                                            hideProgressBar()
-                                        }
-                                        else -> {}
-                                    }
-                                }
-                            }
+                        observers()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observers(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loginResponseState.collect {
+                    when (it) {
+                        is ResponseState.Loading -> {
+                            showProgressBar()
                         }
+                        is ResponseState.Error -> {
+                            Toast.makeText(
+                                requireContext(),
+                                "${it.message}",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            hideProgressBar()
+                        }
+                        //if login was successful
+                        is ResponseState.Success -> {
+                            val actionToLoggedIn = LoginFragmentDirections.actionLoginFragmentToLoggedinFragment()
+                            Navigation.findNavController(requireView()).navigate(actionToLoggedIn)
+                            hideProgressBar()
+                        }
+                        else -> {}
                     }
                 }
             }
