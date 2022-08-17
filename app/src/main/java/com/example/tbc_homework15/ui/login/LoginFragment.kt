@@ -31,43 +31,48 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
         binding.apply {
             loginEmailET.background.alpha = 76
             loginPasswordET.background.alpha = 76
-            var loginEyeClicked = 0
-            loginPassword.setEndIconOnClickListener {
-                if (loginEyeClicked % 2 == 0) {
-                    loginPassword.editText!!.inputType =
-                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    loginPassword.endIconDrawable = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.layered_eye_no
-                    )
-                } else {
-                    loginPassword.editText!!.inputType =
-                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    loginPassword.endIconDrawable = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.layered_eye
-                    )
-                }
-                loginEyeClicked++
+        }
+        listeners()
+        observers()
+    }
 
+    private fun listeners(){
+binding.apply {
+    var loginEyeClicked = 0
+    loginPassword.setEndIconOnClickListener {
+        if (loginEyeClicked % 2 == 0) {
+            loginPassword.editText!!.inputType =
+                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            loginPassword.endIconDrawable = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.layered_eye_no
+            )
+        } else {
+            loginPassword.editText!!.inputType =
+                InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            loginPassword.endIconDrawable = ContextCompat.getDrawable(
+                requireContext(),
+                R.drawable.layered_eye
+            )
+        }
+        loginEyeClicked++
+
+    }
+    loginLoginButton.setOnClickListener {
+        when {
+            checkEmpty(loginEmail) || checkEmpty(loginPassword) -> {
             }
-            loginLoginButton.setOnClickListener {
-                when {
-                    checkEmpty(loginEmail) || checkEmpty(loginPassword) -> {
-                    }
-                    !isValidEmail(loginEmail) -> {}
-                    else -> {
-                        viewModel.logIn(
-                            email = loginEmailET.text.toString(),
-                            password = loginPasswordET.text.toString()
-                        )
-                        observers()
-                    }
-                }
+            !isValidEmail(loginEmail) -> {}
+            else -> {
+                viewModel.logIn(
+                    email = loginEmailET.text.toString(),
+                    password = loginPasswordET.text.toString()
+                )
             }
         }
     }
-
+}
+    }
     private fun observers(){
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {

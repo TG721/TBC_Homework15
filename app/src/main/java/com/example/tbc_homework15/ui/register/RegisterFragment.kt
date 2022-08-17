@@ -91,44 +91,55 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
             registerPasswordET.background.alpha = 76
             registerEmailET.background.alpha = 76
             registerUsernameET.background.alpha = 76
-            var eyeClicked = 0
-            registerPassword.setEndIconOnClickListener {
-                if (eyeClicked % 2 == 0) {
-                    registerPassword.editText!!.inputType =
-                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                    registerPassword.endIconDrawable = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.layered_eye_no
-                    )
-                } else {
-                    registerPassword.editText!!.inputType =
-                        InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                    registerPassword.endIconDrawable = ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.layered_eye
-                    )
-                }
-                eyeClicked++
 
+        }
+        listeners()
+        observers()
+
+
+    }
+
+    private fun listeners(){
+        binding.apply {
+        var eyeClicked = 0
+        registerPassword.setEndIconOnClickListener {
+            if (eyeClicked % 2 == 0) {
+                registerPassword.editText!!.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                registerPassword.endIconDrawable = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.layered_eye_no
+                )
+            } else {
+                registerPassword.editText!!.inputType =
+                    InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                registerPassword.endIconDrawable = ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.layered_eye
+                )
             }
-            registerRegisterButton.setOnClickListener {
-                when {
-                    checkEmpty(registerEmail) || checkEmpty(registerUsername) || checkEmpty(
-                        registerPassword
-                    ) -> {
-                    }
-                    notGoodPass(registerPassword) -> {}
-                    !isValidEmail(registerEmail) -> {}
-                    !isValidUsername(registerUsername) -> {}
-                    else -> {
-                        viewModel.register(email = registerEmailET.text.toString(), password = registerPasswordET.text.toString())
-                        observers()
-                    }
+            eyeClicked++
+
+        }
+        registerRegisterButton.setOnClickListener {
+            when {
+                checkEmpty(registerEmail) || checkEmpty(registerUsername) || checkEmpty(
+                    registerPassword
+                ) -> {
+                }
+                notGoodPass(registerPassword) -> {}
+                !isValidEmail(registerEmail) -> {}
+                !isValidUsername(registerUsername) -> {}
+                else -> {
+                    viewModel.register(
+                        email = registerEmailET.text.toString(),
+                        password = registerPasswordET.text.toString()
+                    )
+
                 }
             }
         }
-
-
+        }
     }
 
     private fun observers(){
