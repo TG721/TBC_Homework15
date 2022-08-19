@@ -10,6 +10,7 @@ class WelcomeFragment : BaseFragment<FragmentWelcomeBinding>(
 ) {
 
     override fun setup() {
+        binding.welcomeLoginButton.background.alpha = 76
         binding.welcomeRegisterButton.setOnClickListener {
             val action =
                 WelcomeFragmentDirections.actionWelcomeFragmentToRegisterFragment()
