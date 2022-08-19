@@ -6,6 +6,9 @@ import com.example.tbc_homework15.ui.BaseFragment
 class LoggedInFragment : BaseFragment<FragmentLoggedinBinding>(
     FragmentLoggedinBinding::inflate
 ){
+    override fun setup() {
+
+    }
 
 
 }

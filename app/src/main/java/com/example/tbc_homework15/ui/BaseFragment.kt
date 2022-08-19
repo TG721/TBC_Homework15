@@ -28,4 +28,15 @@ _binding = bindingInflater.invoke(inflater)
         super.onDestroyView()
         _binding = null
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setup()
+        listeners()
+        observers()
+    }
+
+    abstract fun setup()
+    open fun observers() {}
+    open fun listeners() {}
 }

@@ -1,6 +1,5 @@
 package com.example.tbc_homework15.ui.login
 
-import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.Toast
@@ -23,20 +22,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(
     FragmentLoginBinding::inflate
 ) {
     private lateinit var viewModel: LoginViewModel
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val repository = Repository()
-        val viewModelFactory = LoginViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
-        binding.apply {
-            loginEmailET.background.alpha = 76
-            loginPasswordET.background.alpha = 76
-        }
-        listeners()
-        observers()
-    }
 
-    private fun listeners(){
+
+     override fun listeners(){
 binding.apply {
     var loginEyeClicked = 0
     loginPassword.setEndIconOnClickListener {
@@ -73,7 +61,7 @@ binding.apply {
     }
 }
     }
-    private fun observers(){
+    override fun observers(){
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.loginResponseState.collect {
@@ -108,6 +96,16 @@ binding.apply {
 
     private fun hideProgressBar() {
         binding.loginProgressBar.visibility = View.INVISIBLE
+    }
+
+    override fun setup() {
+        val repository = Repository()
+        val viewModelFactory = LoginViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[LoginViewModel::class.java]
+        binding.apply {
+            loginEmailET.background.alpha = 76
+            loginPasswordET.background.alpha = 76
+        }
     }
 
 

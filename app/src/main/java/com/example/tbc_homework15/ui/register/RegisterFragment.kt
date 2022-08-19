@@ -2,7 +2,6 @@ package com.example.tbc_homework15.ui.register
 
 //import android.content.res.ColorStateList
 //import android.graphics.Color
-import android.os.Bundle
 import android.text.InputType
 import android.view.View
 import android.widget.Toast
@@ -80,26 +79,8 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
 ) {
 
     private lateinit var viewModel: RegisterViewModel
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        val repository = Repository()
-        val viewModelFactory = RegisterViewModelFactory(repository)
-        viewModel = ViewModelProvider(this, viewModelFactory)[RegisterViewModel::class.java]
-        binding.apply {
 
-
-            registerPasswordET.background.alpha = 76
-            registerEmailET.background.alpha = 76
-            registerUsernameET.background.alpha = 76
-
-        }
-        listeners()
-        observers()
-
-
-    }
-
-    private fun listeners(){
+    override fun listeners(){
         binding.apply {
         var eyeClicked = 0
         registerPassword.setEndIconOnClickListener {
@@ -142,7 +123,7 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
         }
     }
 
-    private fun observers(){
+    override fun observers(){
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.registerResponseState.collect{
@@ -172,6 +153,20 @@ class RegisterFragment : BaseFragment<FragmentRegisterBinding>(
 
     private fun hideProgressBar() {
         binding.registerProgressBar.visibility = View.GONE
+    }
+
+    override fun setup() {
+        val repository = Repository()
+        val viewModelFactory = RegisterViewModelFactory(repository)
+        viewModel = ViewModelProvider(this, viewModelFactory)[RegisterViewModel::class.java]
+        binding.apply {
+
+
+            registerPasswordET.background.alpha = 76
+            registerEmailET.background.alpha = 76
+            registerUsernameET.background.alpha = 76
+
+        }
     }
 
 }
